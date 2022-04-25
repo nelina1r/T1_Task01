@@ -1,0 +1,9 @@
+Ivan IT 70000
+Sergei HR 50000
+Dmitrii SAP 90000
+Katerina IT 95000
+Evgeniy SAP 120000
+Lera HR 88000
+Anna IT 30000
+Semen SAP 60000
+Nikita HR 46000

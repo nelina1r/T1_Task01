@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Application {
 
@@ -16,6 +14,7 @@ public class Application {
     public static void main(String[] args) {
         List<Employee> employeeList = new ArrayList<>();
         Set<String> departmentSet = new HashSet<>();
+        Map<String, Double> avgSalaryInDeps = new HashMap<>();
         try {
             File file = new File(FILE_PATH);
             FileReader fileReader = new FileReader(file);
@@ -41,6 +40,21 @@ public class Application {
                 }
             }
             System.out.println("Average salary for " + d + ": " + Math.round(averageSalary/counter) + "\n");
+            avgSalaryInDeps.put(d, averageSalary/counter);
         }
+
+        Map<String, String> resultMap = new HashMap<>();
+        for(Employee e : employeeList){
+            Set<String> xorDepSet = avgSalaryInDeps.keySet();
+            for(String d : xorDepSet) {
+                if (!e.getDepartment().equals(d)){
+                    if(e.getSalary() >= avgSalaryInDeps.get(d)){
+                        resultMap.put(e.getName(), d);
+                    }
+                }
+            }
+        }
+
+        Stream.of(resultMap).forEach(System.out::println);
     }
 }

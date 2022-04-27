@@ -1,9 +1,12 @@
-Ivan IT 70000
-Sergei HR 50000
-Dmitrii SAP 90000
-Katerina IT 95000
-Evgeniy SAP 120000
-Lera HR 88000
-Anna IT 30000
-Semen SAP 60000
-Nikita HR 46000
+Ivan Ivanov Sergeevich;IT;70000
+Sergei Sidirov;HR;50000
+Dmitrii Sudov ;SAP;90000
+Dmitrii;SAP;-90000
+Karen;SAP;75000
+Petr;IT;95000
+Evgeniy;SAP;120000
+Dmitrii;SAP
+Lera;HR;88000
+Anna;IT;30000
+Semen;SAP;60000
+Valeriy;HR;46000

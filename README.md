@@ -23,4 +23,3 @@ output:
 >Petr IT 95000.0<br />
 >Anna IT 30000.0<br />
 >Average salary for IT: 65000<br />
->{Petr=HR, Ivan=HR, Dmitrii=IT, Evgeniy=IT, Lera=IT}<br />

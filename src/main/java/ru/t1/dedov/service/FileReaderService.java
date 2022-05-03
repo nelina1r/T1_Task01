@@ -1,7 +1,7 @@
 package ru.t1.dedov.service;
 
 import ru.t1.dedov.exceptions.DataFormatException;
-import ru.t1.dedov.exceptions.NegativeSalaryException;
+import ru.t1.dedov.exceptions.InvalidSalaryException;
 import ru.t1.dedov.model.Department;
 import ru.t1.dedov.model.Employee;
 
@@ -9,15 +9,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FileReaderService {
 
 
-    public static List<Department> readFromFileToList(String fileName) {
+    public static Map<String, Department> readFromFileToList(String fileName) {
         List<Department> departmentList;
         Map<String, Department> departmentMap = new HashMap<>();
         int lineCounter = 0;
@@ -27,43 +27,57 @@ public class FileReaderService {
                 lineCounter++;
                 try {
                     String[] specs = line.split(";");
+                    //
+                    if(Arrays.stream(specs).anyMatch(x -> (x.isBlank()))){
+                        System.out.println("In " + lineCounter + " line one or more values contains only spaces or empty");
+                        line = bufferedReader.readLine();
+                        continue;
+                    }
+                    //
                     if (specs.length != 3)
-                        throw new DataFormatException();
+                        throw new DataFormatException("Invalid dataset in line: " + lineCounter);
                     String departmentName = specs[1].trim();
+                    salaryCheck(specs[2].trim(), lineCounter);
                     if (!departmentMap.containsKey(departmentName))
                         departmentMap.put(departmentName, new Department(departmentName));
                     departmentMap.get(departmentName).addEmployee(createEmployee(specs));
-                } catch (NegativeSalaryException | NumberFormatException b) {
-                    System.out.println("Invalid salary value in line : " + lineCounter);
-                } catch (DataFormatException e) {
-                    System.out.println("Invalid dataset in line : " + lineCounter);
+                } catch (InvalidSalaryException | NumberFormatException | DataFormatException b) {
+                    System.out.println(b.getMessage());
                 }
                 //
                 line = bufferedReader.readLine();
             }
         } catch (IOException e) {
             System.out.println("File reading error: " + fileName);
-            return null;
         }
-        departmentList = new ArrayList<>(departmentMap.values());
-        getDepartmentList(departmentList);
-        return departmentList;
+        getDepartmentList(new ArrayList<>(departmentMap.values()));
+        return departmentMap;
     }
 
-    private static Employee createEmployee(String[] specs) throws NegativeSalaryException{
+    private static void salaryCheck(String s, int lineCounter) throws InvalidSalaryException {
+        BigDecimal salary = new BigDecimal((s.trim()));
+        if(salary.compareTo(BigDecimal.ZERO) < 0 | salary.scale() > 2)
+            throw new InvalidSalaryException("Invalid salary value in line : " + lineCounter);
+    }
+    private static Employee createEmployee(String[] specs){
         BigDecimal salary = new BigDecimal((specs[2].trim()));
-        if(salary.compareTo(BigDecimal.ZERO) < 0)
-            throw new NegativeSalaryException();
-        return new Employee(specs[0], specs[1], salary);
+        return new Employee(specs[0], salary);
     }
 
     public static void getDepartmentList(List<Department> departmentList){
-        for(Department d : departmentList){
+        DecimalFormat df = new DecimalFormat("###,###,###,###,###.00");
+        for(Department d: departmentList){
             System.out.println("\nAverage salary in department " +
                                d.getName() + ": " +
-                               d.getAverageSalary() +
+                               df.format(d.getAverageSalary()) +
                                "\nWith employees: ");
-            d.getEmployeeList().forEach(x -> System.out.println(x.getName() + " " + x.getSalary()));
+            for(Employee e: d.getEmployeeList()) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < (50 - e.getSalary().toString().length() - e.getName().length()); i++) {
+                    sb.append(" ");
+                }
+                System.out.println(e.getName() + sb + df.format(e.getSalary()));
+            }
         }
     }
 }

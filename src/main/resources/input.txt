@@ -1,7 +1,10 @@
 Ivan Ivanov Sergeevich;IT;70000
 Sergei Sidirov;HR;50000
-Dmitrii Sudov ;SAP;90000
+Dmitrii Surname ;SAP;90000
 Dmitrii;SAP;-90000
+   ;SAP;75000
+Irina; ;75000
+Vladimir;DDD;75000.0005
 Karen;SAP;75000
 Petr;IT;95000
 Evgeniy;SAP;120000

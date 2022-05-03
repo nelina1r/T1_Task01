@@ -9,24 +9,30 @@ public class Department {
 
     private String name;
 
-    private List<Employee> employeeList = new ArrayList<>();
+    private List<Employee> employeeList;
 
     public Department(String name){
         this.name = name;
+        employeeList = new ArrayList<>();
     }
 
+    public BigDecimal getSummaryEmployeesSalary(){
+        if(employeeList.size() == 0)
+            return new BigDecimal(0);
+        return employeeList.stream().map(x -> x.getSalary()).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
     public void addEmployee(Employee employee){
         employeeList.add(employee);
     }
 
     public BigDecimal getAverageSalary() {
+        if(employeeList.size() == 0)
+            return new BigDecimal(0);
         BigDecimal averageSalary = new BigDecimal(0);
         for(Employee e : employeeList)
             averageSalary = averageSalary.add(e.getSalary());
         return averageSalary.divide(new BigDecimal(employeeList.size()), 2, RoundingMode.HALF_UP);
     }
-
-
 
     public List<Employee> getEmployeeList() {
         return employeeList;

@@ -5,13 +5,10 @@ import java.math.BigDecimal;
 public class Employee {
     private String name;
 
-    private String department;
-
     private BigDecimal salary;
 
-    public Employee(String name, String department, BigDecimal salary){
+    public Employee(String name, BigDecimal salary){
         this.name = name;
-        this.department = department;
         this.salary = salary;
     }
 
@@ -21,14 +18,6 @@ public class Employee {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
     }
 
     public BigDecimal getSalary() {

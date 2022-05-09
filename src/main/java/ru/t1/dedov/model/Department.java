@@ -18,7 +18,7 @@ public class Department {
 
     public BigDecimal getSummaryEmployeesSalary(){
         if(employeeList.size() == 0)
-            return new BigDecimal(0);
+            return BigDecimal.ZERO;
         return employeeList.stream().map(x -> x.getSalary()).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
     public void addEmployee(Employee employee){
@@ -26,12 +26,9 @@ public class Department {
     }
 
     public BigDecimal getAverageSalary() {
-        if(employeeList.size() == 0)
-            return new BigDecimal(0);
-        BigDecimal averageSalary = new BigDecimal(0);
-        for(Employee e : employeeList)
-            averageSalary = averageSalary.add(e.getSalary());
-        return averageSalary.divide(new BigDecimal(employeeList.size()), 2, RoundingMode.HALF_UP);
+        if (employeeList.size() == 0)
+            return BigDecimal.ZERO;
+        return getSummaryEmployeesSalary().divide(new BigDecimal(employeeList.size()), 2, RoundingMode.HALF_UP);
     }
 
     public List<Employee> getEmployeeList() {

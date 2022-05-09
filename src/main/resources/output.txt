@@ -1,12 +1,181 @@
-Transfer №1: Karen from SAP to HR
-Average salary in SAP before transfer: 86250.00
-After transfer: 90000.00
-Average salary in HR before transfer: 61333.33
-After transfer: 64750.00
+Transfer from IT to SAP
+Average salary in IT before transfer: 142142.86
+After transfer : 150000.00
+Average salary in SAP before transfer: 84000.00
+After transfer : 84454.55
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Petr
+Valya
+Greg
+John
 
-Transfer №2: Karen from SAP to IT
-Average salary in SAP before transfer: 86250.00
-After transfer: 90000.00
-Average salary in IT before transfer: 65000.00
-After transfer: 67500.00
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 300000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 57571.43
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Petr
+Dmitry
+Valya
+Greg
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 200000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 54035.71
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Petr
+Dmitry
+Valya
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 250000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 61417.58
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Petr
+Dmitry
+Greg
+John
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 175000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 58202.38
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Petr
+Dmitry
+John
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 150000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 69109.89
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Petr
+Valya
+Greg
+John
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 200000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 54035.71
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Petr
+Greg
+John
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 197500.00
+Average salary in HR before transfer: 53428.57
+After transfer : 54452.38
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Dmitry
+Valya
+Greg
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 172500.00
+Average salary in HR before transfer: 53428.57
+After transfer : 58619.05
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Dmitry
+Greg
+John
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 148333.33
+Average salary in HR before transfer: 53428.57
+After transfer : 54857.14
+Employee list: 
+Ivan Ivanov Sergeevich
+Anna
+Dmitry
+John
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 165000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 59869.05
+Employee list: 
+Ivan Ivanov Sergeevich
+Petr
+Dmitry
+Valya
+Greg
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 143333.33
+Average salary in HR before transfer: 53428.57
+After transfer : 56220.78
+Employee list: 
+Ivan Ivanov Sergeevich
+Petr
+Dmitry
+Valya
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 143333.33
+Average salary in HR before transfer: 53428.57
+After transfer : 56220.78
+Employee list: 
+Ivan Ivanov Sergeevich
+Petr
+Greg
+John
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 185000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 56535.71
+Employee list: 
+Anna
+Petr
+Dmitry
+Valya
+Greg
+
+Transfer from IT to HR
+Average salary in IT before transfer: 142142.86
+After transfer : 160000.00
+Average salary in HR before transfer: 53428.57
+After transfer : 60702.38
+Employee list: 
+Anna
+Petr
+Dmitry
+Greg
+John
 

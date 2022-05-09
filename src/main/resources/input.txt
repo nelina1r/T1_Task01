@@ -1,15 +1,24 @@
 Ivan Ivanov Sergeevich;IT;70000
+Anna;IT;30000
+Petr;IT;95000
+Dmitry;IT;150000
+Valya;IT;250000
+Greg;IT;100000
+John;IT;300000
 Sergei Sidirov;HR;50000
+Valeriy;HR;46000
+Anatoliy;HR;46000
+Pavel;HR;55000
+Leonid;HR;54000
+Egor;HR;35000
+Lera;HR;88000
+Semen;SAP;60000
+Afanaciy;SAP;75000
 Dmitrii Surname ;SAP;90000
 Dmitrii;SAP;-90000
    ;SAP;75000
+Evgeniy;SAP;120000
+Dmitrii;SAP
 Irina; ;75000
 Vladimir;DDD;75000.0005
 Karen;SAP;75000
-Petr;IT;95000
-Evgeniy;SAP;120000
-Dmitrii;SAP
-Lera;HR;88000
-Anna;IT;30000
-Semen;SAP;60000
-Valeriy;HR;46000

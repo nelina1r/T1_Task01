@@ -9,6 +9,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CalculatorService {
 
@@ -18,40 +19,29 @@ public class CalculatorService {
         for(String departmentFromName : departmentMap.keySet()){
             for(String departmentToName : departmentMap.keySet()){
                 if(!departmentFromName.equals(departmentToName)){
-                    calculateTransfersInTwoDeps(departmentMap.get(departmentFromName), departmentMap.get(departmentToName));
+                    calculateTransfersInTwoDeps(departmentMap.get(departmentFromName), departmentMap.get(departmentToName), new ArrayList<>(), 0, departmentMap.get(departmentFromName).getEmployeeList().size());
                 }
             }
         }
     }
 
-    public static void calculateTransfersInTwoDeps(Department departmentFrom, Department departmentTo) {
-        boolean exitFlag = true;
-        for(Employee employee : departmentFrom.getEmployeeList()){
-            if(employee.getSalary().compareTo(departmentFrom.getAverageSalary()) < 0)
-                exitFlag = false;
-        }
-        if(exitFlag)
-            return;
-        recursionSearching(departmentFrom, departmentTo, new ArrayList<>(), 0, departmentFrom.getEmployeeList().size());
-    }
-
-    public static void recursionSearching(Department depFrom, Department depTo, List<Employee> employeeList, int recursionBorder, int recursionDeep){
-        if(recursionBorder == recursionDeep){
+    public static void calculateTransfersInTwoDeps(Department depFrom, Department depTo, List<Employee> employeeList, int recursionStep, int recursionDeep){
+        if(!(recursionStep == recursionDeep)){
+            Employee employee = depFrom.getEmployeeList().get(recursionStep);
+            employeeList.add(employee);
+            calculateTransfersInTwoDeps(depFrom, depTo, employeeList, recursionStep + 1, recursionDeep);
+            employeeList.remove(employee);
+            calculateTransfersInTwoDeps(depFrom, depTo, employeeList, recursionStep + 1, recursionDeep);
+        } else {
             BigDecimal updatedDepFromAvgSalary = DepartmentUtils.calculateAverageSalaryWithoutSomeEmployees(depFrom, employeeList);
             BigDecimal updatedDepToAvgSalary = DepartmentUtils.calculateAverageSalaryWithExtraEmployees(depTo, employeeList);
             if(updatedDepToAvgSalary.compareTo(depTo.getAverageSalary()) > 0 &&
-               updatedDepFromAvgSalary.compareTo(depFrom.getAverageSalary()) > 0)
+                    updatedDepFromAvgSalary.compareTo(depFrom.getAverageSalary()) > 0)
                 outputLines.add(outputLineFormatter(depFrom, depTo, employeeList, updatedDepFromAvgSalary, updatedDepToAvgSalary));
-
-        } else {
-            Employee employee = depFrom.getEmployeeList().get(recursionBorder);
-            employeeList.add(employee);
-            recursionSearching(depFrom, depTo, employeeList, recursionBorder + 1, recursionDeep);
-            employeeList.remove(employee);
-            recursionSearching(depFrom, depTo, employeeList, recursionBorder + 1, recursionDeep);
         }
     }
 
+    @Deprecated
     public static List<String> calculateEmployeeTransfers(Map<String, Department> departmentMap){
         List<String> outputLinesList = new ArrayList<>();
         int transferCounter = 0;
@@ -59,9 +49,13 @@ public class CalculatorService {
             for(Department departmentTo : departmentMap.values()){
                 if(departmentFrom.equals(departmentTo))
                     continue;
-                for(Employee employee : departmentFrom.getEmployeeList()){
-                    if(employee.getSalary().compareTo(departmentFrom.getAverageSalary()) < 0
-                            && employee.getSalary().compareTo(departmentTo.getAverageSalary()) > 0) {
+                if(departmentFrom.getAverageSalary().compareTo(departmentTo.getAverageSalary()) > 0) {
+                    List<Employee> employeeList = departmentFrom.getEmployeeList()
+                            .stream()
+                            .filter(e -> (e.getSalary().compareTo(departmentFrom.getAverageSalary()) < 0 &&
+                                          e.getSalary().compareTo(departmentTo.getAverageSalary()) > 0))
+                            .collect(Collectors.toList());
+                    for (Employee employee : employeeList) {
                         transferCounter++;
                         outputLinesList.add(outputLineFormatter(departmentFrom, departmentTo, employee, transferCounter));
                     }

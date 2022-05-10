@@ -26,9 +26,6 @@ public class DepartmentUtils {
                 averageSalary = averageSalary.add(employee.getSalary());
             }
         }
-
-        return averageSalary.divide(new BigDecimal(department.getEmployeeList().size() - employeeList.size()),
-                2,
-                RoundingMode.HALF_UP);
+        return averageSalary.divide(new BigDecimal(department.getEmployeeList().size() - employeeList.size()),2, RoundingMode.HALF_UP);
     }
 }

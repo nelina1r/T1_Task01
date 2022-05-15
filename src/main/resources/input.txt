@@ -21,4 +21,4 @@ Evgeniy;SAP;120000
 Dmitrii;SAP
 Irina; ;75000
 Vladimir;DDD;75000.0005
-Karen;SAP;75000
+Karen;SAP;fsees

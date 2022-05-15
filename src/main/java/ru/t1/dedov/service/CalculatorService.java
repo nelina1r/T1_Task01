@@ -2,46 +2,55 @@ package ru.t1.dedov.service;
 
 import ru.t1.dedov.model.Department;
 import ru.t1.dedov.model.Employee;
-import ru.t1.dedov.utils.DepartmentUtils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CalculatorService {
 
-    public static List<String> outputLines = new ArrayList<>();
-
-    public static void calculateAllPossibleEmployeeTransfers(Map<String, Department> departmentMap){
-        for(String departmentFromName : departmentMap.keySet()){
-            for(String departmentToName : departmentMap.keySet()){
-                if(!departmentFromName.equals(departmentToName)){
-                    calculateTransfersInTwoDeps(departmentMap.get(departmentFromName), departmentMap.get(departmentToName), new ArrayList<>(), 0, departmentMap.get(departmentFromName).getEmployeeList().size());
+    public static void calculateAllPossibleEmployeeTransfers(Map<String, Department> departmentMap) throws IOException {
+        for(Department departmentFrom : departmentMap.values()){
+            for(Department departmentTo : departmentMap.values()){
+                if(!departmentFrom.equals(departmentTo)){
+                    calculateTransfersInTwoDeps(departmentFrom, departmentTo);
                 }
             }
         }
     }
 
-    public static void calculateTransfersInTwoDeps(Department depFrom, Department depTo, List<Employee> employeeList, int recursionStep, int recursionDeep){
+    public static void calculateTransfersInTwoDeps(Department departmentFrom, Department departmentTo) {
+        boolean exitFlag = true;
+        for(Employee employee : departmentFrom.getEmployeeList()){
+            if(employee.getSalary().compareTo(departmentTo.getAverageSalary()) < 0)
+                exitFlag = false;
+        }
+        if(exitFlag) return;
+        recursionSearching(departmentFrom, departmentTo, new LinkedList<>(), 0, departmentFrom.getEmployeeList().size());
+    }
+
+    public static void recursionSearching(Department depFrom, Department depTo, List<Employee> employeeList, int recursionStep, int recursionDeep) {
         if(!(recursionStep == recursionDeep)){
             Employee employee = depFrom.getEmployeeList().get(recursionStep);
             employeeList.add(employee);
-            calculateTransfersInTwoDeps(depFrom, depTo, employeeList, recursionStep + 1, recursionDeep);
+            recursionSearching(depFrom, depTo, employeeList, recursionStep + 1, recursionDeep);
             employeeList.remove(employee);
-            calculateTransfersInTwoDeps(depFrom, depTo, employeeList, recursionStep + 1, recursionDeep);
+            recursionSearching(depFrom, depTo, employeeList, recursionStep + 1, recursionDeep);
         } else {
-            BigDecimal updatedDepFromAvgSalary = DepartmentUtils.calculateAverageSalaryWithoutSomeEmployees(depFrom, employeeList);
-            BigDecimal updatedDepToAvgSalary = DepartmentUtils.calculateAverageSalaryWithExtraEmployees(depTo, employeeList);
+            BigDecimal updatedDepFromAvgSalary = depFrom.calculateAverageSalaryWithoutSomeEmployees(employeeList);
+            BigDecimal updatedDepToAvgSalary = depTo.calculateAverageSalaryWithExtraEmployees(employeeList);
             if(updatedDepToAvgSalary.compareTo(depTo.getAverageSalary()) > 0 &&
                     updatedDepFromAvgSalary.compareTo(depFrom.getAverageSalary()) > 0)
-                outputLines.add(outputLineFormatter(depFrom, depTo, employeeList, updatedDepFromAvgSalary, updatedDepToAvgSalary));
+                FileWriterService.writeLineInFile(outputLineFormatter(depFrom, depTo, employeeList, updatedDepFromAvgSalary, updatedDepToAvgSalary));
         }
     }
 
-    @Deprecated
+    @Deprecated(since = "08.05.2022")
     public static List<String> calculateEmployeeTransfers(Map<String, Department> departmentMap){
         List<String> outputLinesList = new ArrayList<>();
         int transferCounter = 0;
@@ -87,6 +96,6 @@ public class CalculatorService {
         for(Employee e: employeeList){
             sb.append(e.getName()).append("\n");
         }
-        return s1 + sb;
+        return s1 + sb + "\n";
     }
 }

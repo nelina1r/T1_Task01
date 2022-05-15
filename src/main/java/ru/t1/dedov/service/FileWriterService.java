@@ -1,18 +1,26 @@
 package ru.t1.dedov.service;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
 
 public class FileWriterService {
 
-    public static void writeInFile(List<String> list, String fileName){
-        try(FileWriter fileWriter = new FileWriter(fileName)){
-            for(String line : list){
-                fileWriter.write(line + "\n");
+    public static String OUTPUT_FILE_NAME;
+
+    public static void writeLineInFile(String text){
+        File file = new File(OUTPUT_FILE_NAME);
+        FileWriter fr = null;
+        try {
+            fr = new FileWriter(file,true);
+            fr.write(text);
+
+        } catch (IOException e) {
+            System.out.println("Error occurred during writing in file: " + OUTPUT_FILE_NAME);
+        }finally{
+            try {
+                fr.close();
+            } catch (IOException e) {
+                System.out.println("Error occurred during closing the file: " + OUTPUT_FILE_NAME);
             }
-        }catch (IOException e){
-            System.out.println("Error with output file");
         }
     }
 }

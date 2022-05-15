@@ -4,16 +4,40 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Department {
 
+    private UUID id;
+
     private String name;
 
-    private List<Employee> employeeList;
+    public List<Employee> employeeList;
 
-    public Department(String name){
+    public Department(String name, UUID id){
         this.name = name;
+        this.id = id;
         employeeList = new ArrayList<>();
+    }
+
+    public BigDecimal calculateAverageSalaryWithExtraEmployees(List<Employee> employeeList){
+        BigDecimal averageSalary = getAverageSalary();
+        for(Employee e : employeeList){
+            averageSalary = averageSalary.add(e.getSalary());
+        }
+        return averageSalary.divide(new BigDecimal(getEmployeeList().size() + employeeList.size()), 2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal calculateAverageSalaryWithoutSomeEmployees(List<Employee> employeeList){
+        BigDecimal averageSalary = new BigDecimal(0);
+        if (employeeList.size() == getEmployeeList().size())
+            return averageSalary;
+        for (Employee employee : getEmployeeList()) {
+            if (!employeeList.contains(employee)) {
+                averageSalary = averageSalary.add(employee.getSalary());
+            }
+        }
+        return averageSalary.divide(new BigDecimal(getEmployeeList().size() - employeeList.size()),2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getSummaryEmployeesSalary(){

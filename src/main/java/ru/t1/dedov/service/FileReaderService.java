@@ -1,7 +1,5 @@
 package ru.t1.dedov.service;
 
-import ru.t1.dedov.exceptions.DataFormatException;
-import ru.t1.dedov.exceptions.InvalidSalaryException;
 import ru.t1.dedov.model.Department;
 import ru.t1.dedov.model.Employee;
 
@@ -25,42 +23,61 @@ public class FileReaderService {
                 lineCounter++;
                 try {
                     String[] specs = line.split(";");
-                    if(isValueBlankCheck(specs, lineCounter)){
+                    if (checkDataConsistency(specs, lineCounter)) {
                         line = bufferedReader.readLine();
                         continue;
                     }
-                    dataSetCheck(specs, lineCounter);
                     String departmentName = specs[1].trim();
-                    salaryCheck(specs[2].trim(), lineCounter);
-                    if (!departmentMap.containsKey(departmentName))
-                        departmentMap.put(departmentName, new Department(departmentName));
+                    departmentMap.putIfAbsent(departmentName, new Department(departmentName, UUID.randomUUID()));
                     departmentMap.get(departmentName).addEmployee(createEmployee(specs));
-                } catch (InvalidSalaryException | NumberFormatException | DataFormatException b) {
-                    System.out.println(b.getMessage());
+                } catch (NumberFormatException b) {
+                    System.out.println("Salary not a number in line: " + lineCounter);
                 }
                 line = bufferedReader.readLine();
             }
-            return departmentMap;
         }
+        return departmentMap;
     }
 
-    private static boolean isValueBlankCheck(String[] specs, int lineCounter){
-        if(Arrays.stream(specs).anyMatch(x -> (x.isBlank()))){
+    private static boolean checkDataConsistency(String[] specs, int lineCounter){
+        if(isValueBlankCheck(specs)){
             System.out.println("In " + lineCounter + " line one or more values contains only spaces or empty");
+            return true;
+        }
+        if(dataSetCheck(specs)) {
+            System.out.println("Invalid dataset in line: " + lineCounter);
+            return true;
+        }
+        if(isSalaryDigitCheck(specs[2])) {
+            return false;
+        }
+        if(salaryAdequacyCheck(specs[2].trim())) {
+            System.out.println("Invalid salary value in line : " + lineCounter);
             return true;
         }
         return false;
     }
 
-    private static void dataSetCheck(String[] specs, int lineCounter) throws DataFormatException {
-        if (specs.length != 3)
-            throw new DataFormatException("Invalid dataset in line: " + lineCounter);
+    private static boolean isValueBlankCheck(String[] specs){
+        return Arrays.stream(specs).anyMatch(x -> (x.isBlank()));
     }
 
-    private static void salaryCheck(String s, int lineCounter) throws InvalidSalaryException {
+    private static boolean dataSetCheck(String[] specs) {
+        return specs.length != 3;
+    }
+
+    private static boolean isSalaryDigitCheck(String s){
+        try{
+            Double.parseDouble(s);
+        }catch (NumberFormatException e){
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean salaryAdequacyCheck(String s) {
         BigDecimal salary = new BigDecimal((s.trim()));
-        if(salary.compareTo(BigDecimal.ZERO) < 0 | salary.scale() > 2)
-            throw new InvalidSalaryException("Invalid salary value in line : " + lineCounter);
+        return salary.compareTo(BigDecimal.ZERO) < 0 || salary.scale() > 2;
     }
 
     private static Employee createEmployee(String[] specs){

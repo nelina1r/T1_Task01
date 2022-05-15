@@ -1,8 +1,10 @@
+
+
 Transfer from IT to SAP
 Average salary in IT before transfer: 142142.86
 After transfer : 150000.00
-Average salary in SAP before transfer: 84000.00
-After transfer : 84454.55
+Average salary in SAP before transfer: 86250.00
+After transfer : 93125.00
 Employee list: 
 Ivan Ivanov Sergeevich
 Anna

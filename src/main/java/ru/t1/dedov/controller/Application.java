@@ -2,10 +2,12 @@ package ru.t1.dedov.controller;
 
 import ru.t1.dedov.model.Department;
 import ru.t1.dedov.service.CalculatorService;
+import ru.t1.dedov.service.DatabaseWriterService;
 import ru.t1.dedov.service.FileReaderService;
 import ru.t1.dedov.service.FileWriterService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,10 +22,12 @@ public class Application {
         try {
             Map<String, Department> departmentMap = FileReaderService.readFromFileToList(args[0]);
             FileWriterService.OUTPUT_FILE_NAME = args[1];
+            DatabaseWriterService databaseWriterService = new DatabaseWriterService();
+            databaseWriterService.insertData(departmentMap);
             FileReaderService.printDepartmentList(new ArrayList<>(departmentMap.values()));
             CalculatorService.calculateAllPossibleEmployeeTransfers(departmentMap);
-        }catch (IOException e){
-            System.out.println("File reading error: " + args[0]);
+        }catch (IOException | SQLException | ClassNotFoundException e){
+            e.printStackTrace();
         }
     }
 }

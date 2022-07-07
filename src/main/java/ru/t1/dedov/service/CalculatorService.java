@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class CalculatorService {
 
     public static void calculateAllPossibleEmployeeTransfers(Map<String, Department> departmentMap) throws IOException {
+        departmentMap.keySet();
         for(Department departmentFrom : departmentMap.values()){
             for(Department departmentTo : departmentMap.values()){
                 if(!departmentFrom.equals(departmentTo)){
@@ -27,7 +28,7 @@ public class CalculatorService {
     public static void calculateTransfersInTwoDeps(Department departmentFrom, Department departmentTo) {
         boolean exitFlag = true;
         for(Employee employee : departmentFrom.getEmployeeList()){
-            if(employee.getSalary().compareTo(departmentTo.getAverageSalary()) < 0)
+            if(employee.getSalary().compareTo(departmentTo.getAverageSalary()) > 0)
                 exitFlag = false;
         }
         if(exitFlag) return;

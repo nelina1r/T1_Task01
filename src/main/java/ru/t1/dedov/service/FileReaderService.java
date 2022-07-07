@@ -28,7 +28,7 @@ public class FileReaderService {
                         continue;
                     }
                     String departmentName = specs[1].trim();
-                    departmentMap.putIfAbsent(departmentName, new Department(departmentName, UUID.randomUUID()));
+                    departmentMap.putIfAbsent(departmentName, new Department(departmentName));
                     departmentMap.get(departmentName).addEmployee(createEmployee(specs));
                 } catch (NumberFormatException b) {
                     System.out.println("Salary not a number in line: " + lineCounter);

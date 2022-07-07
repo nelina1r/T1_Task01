@@ -8,15 +8,12 @@ import java.util.UUID;
 
 public class Department {
 
-    private UUID id;
-
     private String name;
 
     public List<Employee> employeeList;
 
-    public Department(String name, UUID id){
+    public Department(String name){
         this.name = name;
-        this.id = id;
         employeeList = new ArrayList<>();
     }
 

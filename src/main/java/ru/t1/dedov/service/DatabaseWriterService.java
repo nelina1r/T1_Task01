@@ -14,14 +14,14 @@ public class DatabaseWriterService {
     private final String DATABASE_DRIVER = "org.postgresql.Driver";
 
     public void insertData(Map<String, Department> departmentMap) throws SQLException, ClassNotFoundException {
-        Connection connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);;
+        Connection connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
         Class.forName(DATABASE_DRIVER);
         connection.setAutoCommit(false);
         //
         String sql1 = "insert into department (name) values (?)";
         String sql2 = "insert into employee (name, salary, department_id) values (?,?,?)";
         //
-        String generatedColumns[] = {"ID"};
+        String generatedColumns[] = {"id"};
         PreparedStatement ps1 = connection.prepareStatement(sql1, generatedColumns);
         PreparedStatement ps2 = connection.prepareStatement(sql2);
         for(Map.Entry<String, Department> entry : departmentMap.entrySet()) {

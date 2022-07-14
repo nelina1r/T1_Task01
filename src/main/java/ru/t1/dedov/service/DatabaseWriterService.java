@@ -24,18 +24,18 @@ public class DatabaseWriterService {
         String[] generatedColumns = {"id"};
         PreparedStatement ps1 = connection.prepareStatement(sql1, generatedColumns);
         PreparedStatement ps2 = connection.prepareStatement(sql2);
-        for(Map.Entry<String, Department> entry : departmentMap.entrySet()) {
+        Long id = 0L;
+        for (Map.Entry<String, Department> entry : departmentMap.entrySet()) {
             try {
                 ps1.setString(1, entry.getKey());
                 ps1.executeUpdate();
                 //
-                Long id = 0L;
                 ResultSet rs = ps1.getGeneratedKeys();
                 if (rs.next()) {
                     id = rs.getLong(1);
                 }
                 //
-                for(Employee emp : entry.getValue().getEmployeeList()){
+                for (Employee emp : entry.getValue().getEmployeeList()) {
                     ps2.setString(1, emp.getName());
                     ps2.setBigDecimal(2, emp.getSalary());
                     ps2.setLong(3, id);

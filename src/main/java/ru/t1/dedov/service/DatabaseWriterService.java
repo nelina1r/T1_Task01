@@ -47,5 +47,6 @@ public class DatabaseWriterService {
                 connection.rollback();
             }
         }
+        connection.close();
     }
 }
